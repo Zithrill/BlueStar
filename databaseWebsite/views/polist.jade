@@ -1,0 +1,45 @@
+
+extends layout
+
+block content
+  link(rel="stylesheet" type="text/css" href="/stylesheets/poTable.css")
+  h3.
+    Purcase Order List
+  div(class="poTable")
+    table
+      thead
+        tr 
+          td ID Number
+          td Ames Purchase Order Number
+          td Purchaser
+          td Requestor
+          td Vendor
+          td Discription
+          td Task Number
+          td Program
+          td Purchase Order Date
+          td Purchase Order Number
+          td Cost
+          td Notes
+        each polist_fields, i in polist_rows
+          tr
+            td #{polist_rows[i].id}
+            td #{polist_rows[i].ames_po_number}
+            td #{polist_rows[i].purchaser}
+            td #{polist_rows[i].requestor}
+            td #{polist_rows[i].vendor}
+            td #{polist_rows[i].discription}
+            td #{polist_rows[i].task_number}
+            td #{polist_rows[i].program}
+            td #{polist_rows[i].po_date}
+            td #{polist_rows[i].po_number}
+            td #{polist_rows[i].cost}
+            td #{polist_rows[i].notes}
+  br
+  br
+  section(class="linkBar-container")
+    nav(class="linkBar")
+      a(href="/polist") Purchase Order List
+      a(href="/addpo") Input a Purchase Order
+      a(href="/addvendor") Add or Modify A Vendor
+      a(href="/admin") Administrative Login 

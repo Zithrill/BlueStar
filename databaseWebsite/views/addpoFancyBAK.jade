@@ -1,0 +1,113 @@
+extends layout
+
+block content
+
+  section(class="af-wrapper")
+                  h3 Random Form
+                      
+                              input(id="af-showreq", class="af-show-input", type="checkbox", name="showreq")
+                              label(for="af-showreq", class="af-show") Show only requiredfields
+                              
+                              form(class="af-form", id="af-form", method="post",action="/addpo", autocomplete="on")
+                              
+                                      div(class="af-outer af-required")
+                                              div(class="af-inner")
+                                                label(for="userdate_requested") Date Purchased:
+                                                input(type="date", placeholder="date_requested", name="userdate_requested", required)
+                                                                                              
+                                      
+                                      
+                                      div(class="af-outer af-required")
+                                              div(class="af-inner")
+                                                label(for="userdate_required") Date Required:
+                                                input(type="date", placeholder="date_required", name="userdate_required", required)
+                                                                                              
+                                      
+                                      
+                                      div(class="af-outer af-required")
+                                              div(class="af-inner")
+                                                label(for="userdate_recived") Date Recived:
+                                                input(type="date", placeholder="date_recived", name="userdate_recived", required)
+                                                                                              
+                                      
+                                      
+                                      div(class="af-outer af-required")
+                                              div(class="af-inner")
+                                                label(for="purchaser") Purchaser:
+                                                select(name="purchaser", required)
+                                                  each addpo_purchaser_fields, i in addpo_purchaser_rows
+                                                    option(value="#{addpo_purchaser_rows[i].last_name}, #{addpo_purchaser_rows[i].first_name}") #{addpo_purchaser_rows[i].last_name}, #{addpo_purchaser_rows[i].first_name}
+                                                                                              
+                                      
+                                      
+                                      div(class="af-outer af-required")
+                                              div(class="af-inner")
+                                                label(for="userrequestor") Requestor:
+                                                input(type="text", placeholder="Requestor", name="userrequestor",list="requestor_list", required)
+                                                                                              
+                                      
+                                      
+                                      div(class="af-outer af-required")
+                                              div(class="af-inner")
+                                                label(for="uservender") Vendor:
+                                                select(name="uservender", required)
+                                                  each addpo_vender_fields, i in addpo_vender_rows
+                                                    option(value=addpo_vender_rows[i].name) #{addpo_vender_rows[i].name}
+                                                                                              
+                                      
+                                      
+                                      div(class="af-outer af-required")
+                                              div(class="af-inner")
+                                                label(for="usertask_number") Task Number:
+                                                input(type="text", value="105", name="usertask_number", required)
+                                                                                              
+                                      
+                                      
+                                      div(class="af-outer af-required")
+                                              div(class="af-inner")
+                                                label(for="userdiscription") Discription:
+                                                input(type="text", placeholder="discription", name="userdiscription")
+                                                                                              
+                                      
+                                      
+                                      div(class="af-outer af-required")
+                                              div(class="af-inner")
+                                                label(for="userprogram") Program:
+                                                input(type="text", placeholder="program", name="userprogram", required)
+                                              
+                                      
+                                      
+                                      div(class="af-outer af-required")
+                                              div(class="af-inner")
+                                                label(for="usercost") Cost:
+                                                input(type="text", placeholder="cost", name="usercost", required)
+                                              
+                                      
+                                      
+                                      div(class="af-outer")
+                                              div(class="af-inner")
+                                                      label(for="userpo_issued") Purchase Order Issued:
+                                                      input(type="text", placeholder="po_issued", name="userpo_issued")
+                                              
+                                      
+                                      
+                                      div(class="af-outer")
+                                              div(class="af-inner")
+                                                      label(for="userpo_date") Purchase Order Date:
+                                                      input(type="date", placeholder="po_date", name="userpo_date")
+                                              
+                                      
+                                      
+                                      div(class="af-outer")
+                                              div(class="af-inner")
+                                                      label(for="userpo_number") Purchase Order Number:
+                                                      input(type="text", placeholder="po_number", name="userpo_number")
+                                              
+                                      
+                                      
+                                      div(class="af-outer")
+                                              div(class="af-inner")
+                                                      label(for="usernotes") Notes:
+                                                      input(type="text", placeholder="notes", name="usernotes")
+                                                      
+                                      input(type="submit" value="Send it over!")

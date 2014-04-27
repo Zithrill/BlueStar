@@ -1,0 +1,168 @@
+extends layout
+
+block content
+    head
+      link(rel="stylesheet" type="text/css" href="/stylesheets/form.css")
+      link(rel="stylesheet" type="text/css" href="/stylesheets/transition.css")
+      script(src="/javascripts/snap.svg-min.js").
+    div(id="pagewrap" class="pagewrap")
+      div(class="container show" id="primary")
+        section(class="af-wrapper")
+            h4 New Purchase Request
+            input(id="af-showreq", class="af-show-input", type="checkbox", checked=true)
+            label(for="af-showreq", class="af-show", id="showlabel") Hide Optional Fields  
+            form(class="af-form", id="af-form", method="post",action="/addpo", autocomplete="on")
+              div(class="af-outer af-required")
+                      div(class="af-inner")
+                        label(for="userdate_requested") Date Purchased:
+                        input(type="date", placeholder="date_requested", name="userdate_requested", required)
+              div(class="af-outer af-required")
+                      div(class="af-inner")
+                        label(for="userdate_required") Date Required:
+                        input(type="date", placeholder="date_required", name="userdate_required", required)
+              div(class="af-outer")
+                      div(class="af-inner")
+                        label(for="userdate_recived") Date Recived:
+                        input(type="date", placeholder="date_recived", name="userdate_recived")
+              div(class="af-outer af-required")
+                      div(class="af-inner")
+                        label(for="purchaser") Purchaser:
+                        select(name="purchaser", required)
+                          each addpo_purchaser_fields, i in addpo_purchaser_rows
+                            option(value="#{addpo_purchaser_rows[i].last_name}, #{addpo_purchaser_rows[i].first_name}") #{addpo_purchaser_rows[i].last_name}, #{addpo_purchaser_rows[i].first_name}
+              div(class="af-outer af-required")
+                      div(class="af-inner")
+                        label(for="userrequestor") Requestor:
+                        input(type="text", placeholder="Requestor", name="userrequestor",list="requestor_list", required)
+              div(class="af-outer af-required")
+                      div(class="af-inner")
+                        label(for="uservendor") Vendor:
+                        select(name="uservendor", required)
+                          each addpo_vendor_fields, i in addpo_vendor_rows
+                            option(value=addpo_vendor_rows[i].business_name) #{addpo_vendor_rows[i].business_name}
+                        p: a(class="pageload-link" href="#secondary") New Vendor
+              div(class="af-outer af-required")
+                      div(class="af-inner")
+                        label(for="usertask_number") Task Number:
+                        input(type="text", value="105", name="usertask_number", required)
+              div(class="af-outer af-required")
+                      div(class="af-inner")
+                        label(for="userdiscription") Discription:
+                        input(type="text", placeholder="Brief Discription of Items Requested", name="userdiscription")
+              div(class="af-outer")
+                      div(class="af-inner")
+                        label(for="userprogram") Program:
+                        input(type="text", placeholder="Program", name="userprogram")
+              div(class="af-outer af-required")
+                      div(class="af-inner")
+                        label(for="usercost") Cost:
+                        input(type="text", placeholder="Cost", name="usercost", required)
+              div(class="af-outer")
+                      div(class="af-inner")
+                              label(for="userpo_issued") Purchase Order Issued:
+                              input(type="text", placeholder="po_issued", name="userpo_issued")
+              div(class="af-outer")
+                      div(class="af-inner")
+                              label(for="userpo_date") Purchase Order Date:
+                              input(type="date", placeholder="po_date", name="userpo_date")
+              div(class="af-outer")
+                      div(class="af-inner")
+                              label(for="userpo_number") Purchase Order Number:
+                              input(type="text", placeholder="po_number", name="userpo_number")
+              div(class="af-outer")
+                      div(class="af-inner")
+                              label(for="usernotes") Notes:
+                              input(type="text", placeholder="notes", name="usernotes")
+              input(type="submit" value="Submit" class="progress-button" data-style="shrink" data-horizontal)
+              input(type="reset" value="Clear Form")
+      div(class="container" id="secondary")
+              section(class="af-wrapper")
+                  h4 New Purchase Request
+                  input(id="af-showreq", class="af-show-input", type="checkbox", checked=true)
+                  label(for="af-showreq", class="af-show", id="showlabel") Hide Optional Fields  
+                  p: a(class="pageload-link" href="#primary") Go back
+                  form(class="af-form", id="af-form", method="post",action="/addvendor", autocomplete="on")
+                    div(class="af-outer af-required")
+                           div(class="af-inner")
+                             label(for="userbusiness_name") Vendor Name:
+                             input(type="text", placeholder="Vendor Name", name="userbusiness_name", required)
+                    div(class="af-outer af-required")
+                            div(class="af-inner")
+                              label(for="usercontact_name") Contact Name:
+                              input(type="text", placeholder="Contact Name", name="usercontact_name")
+                    div(class="af-outer af-required")
+                            div(class="af-inner")
+                              label(for="userwebsite") Website:
+                              input(type="text", placeholder="www.example.com", name="userwebsite")
+                    div(class="af-outer")
+                            div(class="af-inner")
+                              label(for="userstreet_address") Street Address:
+                              input(type="text", placeholder="Address", name="userstreet_address")
+                    div(class="af-outer")
+                            div(class="af-inner")
+                              label(for="usercity") City:
+                              input(type="text", placeholder="City", name="usercity")
+                    div(class="af-outer")
+                            div(class="af-inner")
+                              label(for="userstate") State:
+                              input(type="text", placeholder="State", name="userstate",list="state_list", value="CA")
+                    div(class="af-outer")
+                            div(class="af-inner")
+                              label(for="userzipcode") Zipcode:
+                              input(type="text", name="userzipcode", placeholder="94035")
+                    div(class="af-outer")
+                            div(class="af-inner")
+                              label(for="userphone") Phone Number:
+                              input(type="tel", placeholder="(650)604-5000", name="userphone")
+                    div(class="af-outer")
+                            div(class="af-inner")
+                              label(for="userfax") Fax Number:
+                              input(type="tel", placeholder="(650)604-5000", name="userfax")
+                    div(class="af-outer")
+                            div(class="af-inner")
+                              label(for="useremail") Email:
+                              input(type="email", placeholder="contact@example.com", name="useremail")
+                    div(class="af-outer")
+                            div(class="af-inner")
+                              label(for="usernotes") Notes:
+                              input(type="text", placeholder="Add any additional info here", name="usernotes")
+                    input(type="submit", value="Submit")
+                    input(type="reset" value="Clear Form")
+      div(class="linkBar-container")
+        nav(class="linkBar")
+          a(href="/polist") Purchase Order List
+          a(href="/addpo") Input a Purchase Order
+          a(href="/addvendor") Add or Modify A vendor
+          a(href="/admin") Administrative Login
+      div(id="loader" class="pageload-overlay" data-opening="m -5,-5 0,70 90,0 0,-70 z m 5,35 c 0,0 15,20 40,0 25,-20 40,0 40,0 l 0,0 C 80,30 65,10 40,30 15,50 0,30 0,30 z")
+        svg(xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 80 60" preserveAspectRatio="none")
+          path(d="m -5,-5 0,70 90,0 0,-70 z m 5,5 c 0,0 7.9843788,0 40,0 35,0 40,0 40,0 l 0,60 c 0,0 -3.944487,0 -40,0 -30,0 -40,0 -40,0 z")
+    script(src="/javascripts/classie.js").
+    script(src="/javascripts/svgLoader.js").  
+    script.
+      (function() {
+        var pageWrap = document.getElementById( 'pagewrap' ),
+          pages = [].slice.call( pageWrap.querySelectorAll( 'div.container' ) ),
+          currentPage = 0,
+          triggerLoading = [].slice.call( pageWrap.querySelectorAll( 'a.pageload-link' ) ),
+          loader = new SVGLoader( document.getElementById( 'loader' ), { speedIn : 400, easingIn : mina.easeinout } );
+          classie.removeClass( document.getElementById( 'loader' ), 'show' );
+        function init() {
+          triggerLoading.forEach( function( trigger ) {
+            trigger.addEventListener( 'click', function( ev ) {
+              classie.addClass( document.getElementById( 'loader' ), 'show' );
+              ev.preventDefault();
+              loader.show();
+              // after some time hide loader
+              setTimeout( function() {
+                loader.hide();
+                classie.removeClass( pages[ currentPage ], 'show' );
+                // update..
+                currentPage = currentPage ? 0 : 1;
+                classie.addClass( pages[ currentPage ], 'show' );
+              }, 2000 );
+            } );
+          } );  
+        }
+        init();
+      })();

@@ -1,0 +1,25 @@
+extends layout
+block content
+    link(rel='stylesheet', href='/stylesheets/logonform.css')
+    h1= title
+    br
+
+
+    section(class="main")
+                                form(class="form-1")
+                                        p(class="field")
+                                                input(type="text" name="login" placeholder="Username")
+                                                i(class="icon-user icon-large")
+                                        p(class="field")
+                                                        input(type="password" name="password" placeholder="Password")
+                                                        i(class="icon-lock icon-large")
+                                        p(class="submit")
+                                                button(type="submit" name="submit"): i(class="icon-arrow-right icon-large")
+                        
+                        
+    section(class="linkBar-container")
+      nav(class="linkBar")
+        a(href="/polist") Purchase Order List
+        a(href="/addpo") Input a Purchase Order
+        a(href="/addvendor") Add or Modify A vendor
+        a(href="/admin") Administrative Login 

@@ -1,0 +1,24 @@
+extends layout
+
+block content
+ head
+    titl>Upload Files using XMLHttpRequest - Minimal
+ body
+  form (id="form1" enctype="multipart/form-data" method="post" action="/batchadd.fileSelected()")
+    div( class="row")
+      label( for="fileToUpload") Select a File to Upload
+      br
+      input (type="file" name="fileToUpload" id="fileToUpload" onchange="/batchadd.fileSelected()")
+    div (id="fileName")
+    div (id="fileSize")
+    div (id="fileType")
+    div (class="row")
+      input (type="button" onclick="/batchadd.uploadFile()" value="Upload")
+    
+    div (id="progressNumber")
+     section(class="color-1")
+      nav(class="cl-effect-14")
+        a(href="/polist") Purchase Order List
+        a(href="/addpo") Input a Purchase Order
+        a(href="/addvendor") Add or Modify A Vendor
+        a(href="/admin") Administrative Login 

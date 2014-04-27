@@ -1,0 +1,178 @@
+html {
+  overflow-y: auto;
+  overflow-x: auto;
+  width:100%;
+}
+
+*,
+*:after,
+*::before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+  background: #4fc3f7;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.25;
+  font-family: 'Lato', Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+h1 {
+  color: #00CC00;
+}
+
+}
+
+/* No CSS3 support */
+
+.no-opacity       .wrapper-dropdown-1 .dropdown,
+.no-pointerevents .wrapper-dropdown-1 .dropdown {
+    display: none;
+    opacity: 1; /* If opacity support but no pointer-events support */
+    pointer-events: auto; /* If pointer-events support but no pointer-events support */
+}
+
+.no-opacity       .wrapper-dropdown-1.active .dropdown,
+.no-pointerevents .wrapper-dropdown-1.active .dropdown {
+    display: block;
+}
+
+
+/* linkBar start */
+nav a {
+        position: relative;
+        display: inline-block;
+        margin: 20px 20px;
+        outline: none;
+        color: #fff;
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 400;
+        text-shadow: 0 0 1px rgba(255,255,255,0.3);
+        font-size: 1.35em;
+}
+
+
+nav a:hover,
+nav a:focus {
+        outline: none;
+}
+
+.linkBar-container {
+	background: #435a6b;
+}
+
+/* Effect 14: border switch */
+.linkBar a {
+	padding: 0 20px;
+	height: 45px;
+	line-height: 45px;
+}
+
+.linkBar a::before,
+.linkBar a::after {
+	position: absolute;
+	width: 45px;
+	height: 2px;
+	background: #fff;
+	content: '';
+	opacity: 0.2;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+	pointer-events: none;
+}
+
+.linkBar a::before {
+	top: 0;
+	left: 0;
+	-webkit-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	transform: rotate(90deg);
+	-webkit-transform-origin: 0 0;
+	-moz-transform-origin: 0 0;
+	transform-origin: 0 0;
+}
+
+.linkBar a::after {
+	right: 0;
+	bottom: 0;
+	-webkit-transform: rotate(90deg);
+	-moz-transform: rotate(90deg);
+	transform: rotate(90deg);
+	-webkit-transform-origin: 100% 0;
+	-moz-transform-origin: 100% 0;
+	transform-origin: 100% 0;
+}
+
+.linkBar a:hover::before,
+.linkBar a:hover::after,
+.linkBar a:focus::before,
+.linkBar a:focus::after {
+	opacity: 1;
+}
+
+.linkBar a:hover::before,
+.linkBar a:focus::before {
+	left: 50%;
+	-webkit-transform: rotate(0deg) translateX(-50%);
+	-moz-transform: rotate(0deg) translateX(-50%);
+	transform: rotate(0deg) translateX(-50%);
+}
+
+.linkBar a:hover::after,
+.linkBar a:focus::after {
+	right: 50%;
+	-webkit-transform: rotate(0deg) translateX(50%);
+	-moz-transform: rotate(0deg) translateX(50%);
+	transform: rotate(0deg) translateX(50%);
+}
+/* linkBar end */
+
+#af-showreq:checked ~ .af-form .af-outer:not(.af-required) {
+        height: 0px;
+        visibility: hidden;
+}
+#af-showreq:checked ~ .af-form .af-outer:not(.af-required) .af-inner {
+        -webkit-transform: scale(0);
+        -moz-transform: scale(0);
+        -o-transform: scale(0);
+        -ms-transform: scale(0);
+        transform: scale(0);
+        opacity: 0;
+}
+
+#af-showreq {
+position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+#af-showreq:checked + #showlabel:after{
+content: "Show Optional Fields";
+position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #cae082;
+}
+
+
+
+
+
+
+
+
