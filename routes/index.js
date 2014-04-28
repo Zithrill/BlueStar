@@ -50,42 +50,6 @@ router.get('/addpo', function(req, res) {
   
 });
 
-// /* GET Batch Add PO page. */
-// router.get('/batchadd', function(req, res) {
-//   function fileSelected() {
-//   var file = req.getElementById('fileToUpload').files[0];
-//   if (file) {
-//     var fileSize = 0;
-//     if (file.size > 1024 * 1024)
-//       fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
-//     else
-//       fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
-//           
-//     req.getElementById('fileName').innerHTML = 'Name: ' + file.name;
-//     req.getElementById('fileSize').innerHTML = 'Size: ' + fileSize;
-//     req.getElementById('fileType').innerHTML = 'Type: ' + file.type;
-//   }
-// }
-//   res.render('batchadd', { title: 'Batch Add Purchase Orders', fileSelected():fileSelected(), })
-// });
-// 
-// /* POST to batchadd Page*/
-// router.get('/batchadd', function(req, res){
-//   function uploadFile() {
-//   var xhr = new XMLHttpRequest();
-//   var fd = req.getElementById('form1').getFormData();
-// 
-//   /* event listners */
-//   xhr.upload.addEventListener("progress", uploadProgress, false);
-//   xhr.addEventListener("load", uploadComplete, false);
-//   xhr.addEventListener("error", uploadFailed, false);
-//   xhr.addEventListener("abort", uploadCanceled, false);
-//   /* Be sure to change the url below to the url of your upload server side script */
-//   xhr.open("POST", "UploadMinimal.aspx");
-//   xhr.send(fd);
-// }
-// });
-
 /* GET polist page. */
 router.get('/polist', function(req, res) {
   var database = req.database;
@@ -107,9 +71,6 @@ router.post('/addpo', function(req, res) {
   
   // Set our internal DB variable
   var database = req.database;
-  
-  // Set our collection
-  database.query('USE po_list'); 
   
   //FInding the fiscal year
   getFiscalYear = function(){
