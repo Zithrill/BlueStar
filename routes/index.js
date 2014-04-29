@@ -113,22 +113,22 @@ router.post('/addpo', function(req, res) {
     + ' cost,' 
     + ' notes ) ' 
     + 'VALUES ( CURRENT_TIMESTAMP, '
-    +'"'+ fiscal_year +'"'+ ', ' 
-    +'"'+ generated_po_number +'"'+ ', ' 
-    +'"'+ userdate_requested +'"'+ ', ' 
-    +'"'+ userdate_required +'"'+ ', ' 
-    +'"'+ userdate_recived +'"'+ ', ' 
-    +'"'+ userpurchaser +'"'+ ', ' 
-    +'"'+ userrequestor +'"'+ ', ' 
-    +'"'+ uservendor +'"'+ ', ' 
-    +'"'+ userdiscription +'"'+ ', ' 
-    +'"'+ usertask_number +'"'+ ', ' 
-    +'"'+ userprogram +'"'+ ', ' 
-    +'"'+ userpo_issued +'"'+ ', ' 
-    +'"'+ userpo_date +'"'+ ', ' 
-    +'"'+ userpo_number +'"'+ ', ' 
-    +'"'+ usercost +'"'+ ', ' 
-    +'"'+ usernotes+'"' + ' )';
+    +'\''+ fiscal_year +'\''+ ', ' 
+    +'\''+ generated_po_number +'\''+ ', ' 
+    +'\''+ userdate_requested +'\''+ ', ' 
+    +'\''+ userdate_required +'\''+ ', ' 
+    +'\''+ userdate_recived +'\''+ ', ' 
+    +'\''+ userpurchaser +'\''+ ', ' 
+    +'\''+ userrequestor +'\''+ ', ' 
+    +'\''+ uservendor +'\''+ ', ' 
+    +'\''+ userdiscription +'\''+ ', ' 
+    +'\''+ usertask_number +'\''+ ', ' 
+    +'\''+ userprogram +'\''+ ', ' 
+    +'\''+ userpo_issued +'\''+ ', ' 
+    +'\''+ userpo_date +'\''+ ', ' 
+    +'\''+ userpo_number +'\''+ ', ' 
+    +'\''+ usercost +'\''+ ', ' 
+    +'\''+ usernotes+'\' )';
     console.log(sqlInsert);
     submitQuery();
     };
@@ -195,17 +195,17 @@ router.post('/addvendor', function(req, res) {
     'email, '+
     'notes) '+ 
     'VALUES ( '
-    +'"'+ userbusiness_name +'"'+ ', ' 
-    +'"'+ userstreet_address +'"'+ ', ' 
-    +'"'+ usercity +'"'+ ', ' 
-    +'"'+ userstate +'"'+ ', ' 
-    +'"'+ userzipcode +'"'+ ', ' 
-    +'"'+ userphone +'"'+ ', '
-    +'"'+ userfax +'"'+ ', '
-    +'"'+ usercontact_name +'"'+ ', '
-    +'"'+ userwebsite +'"'+ ', '
-    +'"'+ useremail +'"'+ ', '
-    +'"'+ usernotes +'"' + ' )';
+    +'\''+ userbusiness_name +'\''+ ', ' 
+    +'\''+ userstreet_address +'\''+ ', ' 
+    +'\''+ usercity +'\''+ ', ' 
+    +'\''+ userstate +'\''+ ', ' 
+    +'\''+ userzipcode +'\''+ ', ' 
+    +'\''+ userphone +'\''+ ', '
+    +'\''+ userfax +'\''+ ', '
+    +'\''+ usercontact_name +'\''+ ', '
+    +'\''+ userwebsite +'\''+ ', '
+    +'\''+ useremail +'\''+ ', '
+    +'\''+ usernotes +'\' )';
     console.log(sqlInsert);
     submitQuery();
     };
