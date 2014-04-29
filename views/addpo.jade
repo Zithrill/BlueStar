@@ -28,7 +28,7 @@ block content
                       div(class="af-inner")
                         label(for="purchaser") Purchaser:
                         select(name="purchaser", required)
-                          each addpo_purchaser_fields, i in addpo_purchaser_rows
+                          each addpo_purchaser_rows, i in addpo_purchaser_rows
                             option(value="#{addpo_purchaser_rows[i].last_name}, #{addpo_purchaser_rows[i].first_name}") #{addpo_purchaser_rows[i].last_name}, #{addpo_purchaser_rows[i].first_name}
               div(class="af-outer af-required")
                       div(class="af-inner")
@@ -38,7 +38,7 @@ block content
                       div(class="af-inner")
                         label(for="uservendor") Vendor:
                         select(name="uservendor", required)
-                          each addpo_vendor_fields, i in addpo_vendor_rows
+                          each addpo_vendor_rows, i in addpo_vendor_rows
                             option(value=addpo_vendor_rows[i].business_name) #{addpo_vendor_rows[i].business_name}
                         p: a(class="pageload-link" href="#secondary") New Vendor
               div(class="af-outer af-required")

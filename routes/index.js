@@ -180,9 +180,6 @@ router.post('/addvendor', function(req, res) {
   // Set our internal DB variable
   var database = req.database;
 
-  // Set our collection
-  database.query('USE po_list'); 
-
    // Creating a sql query string
   setQueryString= function(){
     sqlInsert = 'INSERT INTO vendor (' +

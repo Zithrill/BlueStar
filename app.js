@@ -63,7 +63,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
-//Connecting to the mysql database
+//Connecting to the database
 console.log("connecting...");
 pg.connect(process.env.DATABASE_URL, function(err, client, done) {
   if (err) {
@@ -72,21 +72,10 @@ pg.connect(process.env.DATABASE_URL, function(err, client, done) {
   }
   console.log("connected.");
   database = client;
-  clientConnected();
+  tableHasData();
 });
 
-//creating the database if it dosen't exist
-var clientConnected = function()
-{
-  database.query('CREATE DATABASE po_list', function(err, results) {
-    if (err) {
-      console.log("ERROR: " + err.message);
-    }
-    console.log("Database ready");
-    tableHasData();
-  });
-};
-
+//Give some basic data about our tables
 var tableHasData = function()
 {
   database.query(

@@ -1,5 +1,5 @@
     CREATE TABLE ucsc_po_tracking
-    (id INT AUTO_INCREMENT, 
+    (id serial, 
     submitted text, 
     fiscal_year INT, 
     ames_po_number text, 
@@ -21,13 +21,13 @@
     PRIMARY KEY (id));
 
     CREATE TABLE purchaser
-    (id INT AUTO_INCREMENT, 
+    (id serial, 
     first_name text, 
     last_name text, 
     PRIMARY KEY (id));
 
     CREATE TABLE vendor
-    (id INT AUTO_INCREMENT, 
+    (id serial, 
     business_name text, 
     street_address text, 
     city text, 
