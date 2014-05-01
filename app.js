@@ -9,6 +9,9 @@ var users = require('./routes/users');
 var app = express();
 var csvFile = "/home/zithrill/Documents/node/sqlnode/database.csv"
 var pg = require('pg');
+// var database_connect = require('database-connect');
+// var database_get = require('database-get');
+// var database_put = require('database-put');
 var database;
 
 // view engine setup

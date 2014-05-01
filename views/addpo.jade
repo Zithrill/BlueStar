@@ -5,11 +5,12 @@ block content
       link(rel="stylesheet" type="text/css" href="/stylesheets/form.css")
       link(rel="stylesheet" type="text/css" href="/stylesheets/transition.css")
       script(src="/javascripts/snap.svg-min.js").
+      script.
+       var vendor_array = vendor_array;
     div(id="pagewrap" class="pagewrap")
       div(class="container show" id="primary")
         section(class="af-wrapper")
             h4 New Purchase Request
-            document.write(purchaser_array[0])
             input(id="af-showreq", class="af-show-input", type="checkbox", checked=true)
             label(for="af-showreq", class="af-show", id="showlabel") Hide Optional Fields  
             form(class="af-form", id="af-form", method="post",action="/addpo", autocomplete="on")
@@ -29,17 +30,17 @@ block content
                       div(class="af-inner")
                         label(for="purchaser") Purchaser:
                         select(name="purchaser", required)
-                          each purchaser_array
-                            option(value=("#{purchaser_array.last_name}, #{purchaser_array.first_name}")) #{purchaser_array.last_name}, #{purchaser_array.first_name}
+                          each entry, i in purchaser_array
+                            option(value=entry) #{entry}
                       div(class="af-inner")
                         label(for="userrequestor") Requestor:
                         input(type="text", placeholder="Requestor", name="userrequestor",list="requestor_list", required)
               div(class="af-outer af-required")
                       div(class="af-inner")
-                        label(for="uservendor")
+                        label(for="uservendor") Vendor
                         select(name="uservendor", required)
-                            each vendor_array
-                              option(value="#{vendor_array.business_name}") #{vendor_array.business_name}
+                          each entry, i in vendor_array
+                            option(value=entry) #{entry}
                         p: a(class="pageload-link" href="#secondary") New Vendor
               div(class="af-outer af-required")
                       div(class="af-inner")
