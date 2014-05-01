@@ -85,7 +85,7 @@ var tableHasData = function()
         console.log("ERROR: " + err.message);
         throw err;
       }
-      console.log("Got "+results.length+" Rows:");
+      console.log("Got "+ results.rows.length + " Rows:");
     });
   database.query(
     'SELECT * FROM purchaser',
@@ -94,7 +94,7 @@ var tableHasData = function()
         console.log("ERROR: " + err.message);
         throw err;
       }
-      console.log("Got "+results.length+" Rows:");
+      console.log("Got "+ results.rows.length + " Rows:");
     });
   database.query(
     'SELECT * FROM vendor',
@@ -103,6 +103,6 @@ var tableHasData = function()
         console.log("ERROR: " + err.message);
         throw err;
       }
-      console.log("Got "+results.length+" Rows:");
+      console.log("Got "+ results.rows.length + " Rows:");
     });
 };

@@ -28,23 +28,54 @@ router.get('/addpo', function(req, res) {
   
   // Set our internal DB variable
   var database = req.database;
+
+
+  function xinspect(o,i){
+    if (typeof i == 'undefined')i='';
+    if(i.length>50)return '[MAX ITERATIONS]';
+    var r=[];
+    for(var p in o){
+          var t=typeof o[p];
+          r.push(i+'"'+p+'" ('+t+') => '+(t=='object' ? 'object:'+xinspect(o[p],i+'    ') : o[p]+'')); 
+    }
+    return r.join(i+'\n');
+  }
   
   //Get the info for dropdown lists
   database.query(
     'SELECT * FROM purchaser',
-    function selectCb(err, purchaser_rows, purchaser_fields) {
+    function selectCb(err, purchaser_results, purchaser_fields) {
       if (err) {
 	console.log("ERROR: " + err.message );
 	throw err;
       }
       database.query(
 	'SELECT * FROM vendor',
-	function selectCb(err, vendor_rows, vendor_fields) {
+	function selectCb(err, vendor_results, vendor_fields) {
 	  if (err) {
 	    console.log("ERROR: " + err.message);
+
 	    throw err;
 	  }
-	  res.render('addpo', { title: 'Add Purchase Order', addpo_purchaser_rows: purchaser_rows, addpo_purchaser_fields: purchaser_fields, addpo_vendor_rows: vendor_rows, addpo_vendor_fields: vendor_fields })
+
+    console.log("Err: " +err);
+    console.log(xinspect(vendor_results));
+    console.log(vendor_results.rowCount);
+    var vendor_array = [];
+    for (var i = 0; vendor_results.rowCount >= i; i++){
+      var valueToPush = { }; // or "var valueToPush = new Object();" which is the same
+      valueToPush["first_name"] = vendor_results.rows.business_name;
+      vendor_array.push(valueToPush)
+      }
+    var purchaser_array = [];
+    for (var i = 0; purchaser_results.rowCount <= i; i++){
+      var valueToPush = { }; // or "var valueToPush = new Object();" which is the same
+      valueToPush["first_name"] = purchaser_results.rows.first_name;
+      valueToPush["last_name"] = purchaser_results.rows.last_name;
+      purchaser_array.push(valueToPush)
+      }
+    //console.log("vendor_fields: " + vendor_fields.rows);
+	  res.render('addpo', { title: 'Add Purchase Order', purchaser_array: purchaser_array, vendor_array: vendor_array})
 	});
     });
   
@@ -60,7 +91,7 @@ router.get('/polist', function(req, res) {
 		     console.log("ERROR: " + err.message);
 		     throw err;
 		   }
-		   res.render('polist',  {title: 'Purchase Orders',polist_rows: rows, polist_fields: fields})
+		   res.render('polist',  {title: 'Purchase Orders',polist_rows: rows})
 		 });
 });
 
@@ -88,8 +119,8 @@ router.post('/addpo', function(req, res) {
 	console.log("PO # Generation ERROR: " + err.message);
 	res.send("There was a problem .");
       }
-      console.log("Run during the generation " + (rows.length + 1));
-      setQueryString(getFiscalYear() + "-" + (rows.length + 1))
+      console.log("Run during the generation " + (rows.rows.length + 1));
+      setQueryString(getFiscalYear() + "-" + (rows.rows.length + 1))
     });
   };
    // Creating a sql query string
