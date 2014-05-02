@@ -7,7 +7,7 @@ router.get('/', function(req, res) {
 });
 /* GET home page. */
 router.get('/addvendor', function(req, res) {
-  res.render('addvendor', { title: 'Welcome to vendors' });
+  res.render('addvendor', { title: 'Welcome to Vendor Input' });
 });
 /* GET admin page. */
 router.get('/admin', function(req, res) {
@@ -44,6 +44,8 @@ router.get('/addpo', function(req, res) {
   });
 
   ven_query.on('end', function(results){
+    vendor_array =vendor_array.sort();
+    purchaser_array = purchaser_array.sort();
     res.render('addpo', { title: 'Add Purchase Order', purchaser_array: purchaser_array, vendor_array: vendor_array});
   });
 });
@@ -51,15 +53,14 @@ router.get('/addpo', function(req, res) {
 /* GET polist page. */
 router.get('/polist', function(req, res) {
   var database = req.database;
-  
-  database.query('SELECT * FROM ucsc_po_tracking',
-		 function selectCb(err, rows, fields) {
-		   if (err) {
-		     console.log("ERROR: " + err.message);
-		     throw err;
-		   }
-		   res.render('polist',  {title: 'Purchase Orders',polist_rows: rows})
-		 });
+  var poList_Array =[];
+  var polist_query = database.query('SELECT * FROM ucsc_po_tracking')
+  polist_query.on('row', function(result){
+    poList_Array.push(result);
+  });
+  polist_query.on('end', function(results){
+    res.render('polist',  {title: 'Purchase Orders', polist_rows: poList_Array})
+  });
 });
 
 /* POST to Add User Service */
@@ -69,8 +70,24 @@ router.post('/addpo', function(req, res) {
   
   // Set our internal DB variable
   var database = req.database;
+
+  //correcting for empty dates
+  dateCorrection = function(){
+    if (userdate_requested == '') {
+      userdate_requested ='-infinity'
+    };
+    if (userdate_required == '') {
+      userdate_required = '-infinity'
+    };
+    if (userdate_recived == '') {
+      userdate_recived = '-infinity'
+    };
+    if (userpo_date == '') {
+      userpo_date = '-infinity'
+    };
+  }
   
-  //FInding the fiscal year
+  //Finding the fiscal year
   getFiscalYear = function(){
     if (date.getMonth() < 9){
       return date.getFullYear(); 
@@ -80,16 +97,12 @@ router.post('/addpo', function(req, res) {
   //Finding next avalible po number for this fiscal year
   generatePONumberAndSQLQuery = function(){
     var sqlFiscalYearQuery = ('SELECT id FROM ucsc_po_tracking WHERE fiscal_year = ' + fiscal_year);
-    console.log(sqlFiscalYearQuery);
-    database.query(sqlFiscalYearQuery, function selectCb(err, rows, fields) {
-      if (err) {
-	console.log("PO # Generation ERROR: " + err.message);
-	res.send("There was a problem .");
-      }
-      console.log("Run during the generation " + (rows.rows.length + 1));
-      setQueryString(getFiscalYear() + "-" + (rows.rows.length + 1))
-    });
-  };
+    var number_of_entrys = database.query(sqlFiscalYearQuery);
+    number_of_entrys.on('end', function(results) {
+      console.log("Run during the generation " + (results.rowCount + 1));
+      setQueryString(getFiscalYear() + '-' + (results.rowCount + 1))
+      });
+    };
    // Creating a sql query string
   setQueryString= function(generated_po_number){
     sqlInsert = 'INSERT INTO ucsc_po_tracking ('
@@ -110,7 +123,7 @@ router.post('/addpo', function(req, res) {
     + ' po_number,' 
     + ' cost,' 
     + ' notes ) ' 
-    + 'VALUES ( CURRENT_TIMESTAMP, '
+    + 'VALUES ( \'now\', '
     +'\''+ fiscal_year +'\''+ ', ' 
     +'\''+ generated_po_number +'\''+ ', ' 
     +'\''+ userdate_requested +'\''+ ', ' 
@@ -131,19 +144,19 @@ router.post('/addpo', function(req, res) {
     submitQuery();
     };
     //Submitting to the database
-  submitQuery = function(){
-  database.query(sqlInsert.toString() ,function (err, doc) {
-    if (err) {
-      // If it failed, return error
-      res.send("There was a problem adding the information to the database.");
-      console.log("ERROR: " + err.message);
-    }
-    else {
-      // If it worked, set the header so the address bar doesn't still say /adduser
-      res.location("polist");
-      // And forward to success page
-      res.redirect("polist");
-    }
+  var submitQuery = function(){
+    database.query(sqlInsert.toString() ,function (err, doc) {
+      if (err) {
+        // If it failed, return error
+        res.send("There was a problem adding the information to the database.");
+        console.log("ERROR: " + err.message);
+      }
+      else {
+        // If it worked, set the header so the address bar doesn't still say /adduser
+        res.location("polist");
+        // And forward to success page
+        res.redirect("polist");
+      }
   });
   };
   
@@ -166,6 +179,7 @@ router.post('/addpo', function(req, res) {
   var useractual_cost = req.body.useractual_cost;
   var usernotes = req.body.usernotes;
   var sqlInsert;
+  dateCorrection();
   generatePONumberAndSQLQuery();
 
 });
@@ -208,8 +222,8 @@ router.post('/addvendor', function(req, res) {
     submitQuery();
     };
     //Submitting to the database
-  submitQuery = function(){
-  database.query(sqlInsert.toString() ,function (err, doc) {
+  var submitQuery = function(){
+   database.query(sqlInsert.toString() ,function (err, doc) {
     if (err) {
       // If it failed, return error
       res.send("There was a problem adding the information to the database.");

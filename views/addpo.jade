@@ -6,14 +6,43 @@ block content
       link(rel="stylesheet" type="text/css" href="/stylesheets/transition.css")
       script(src="/javascripts/snap.svg-min.js").
       script.
-       var vendor_array = vendor_array;
     div(id="pagewrap" class="pagewrap")
       div(class="container show" id="primary")
+        script.
+            function setRequestor(value){
+              function arrayCheck(elementArray, index, array) {
+                if (value = elementArray){
+                  var element = document.getElementByName('purchaser');
+                  element.value = value;
+                  }
+              }
+              document.purchaser_array.forEach(arrayCheck);
+            }
         section(class="af-wrapper")
             h4 New Purchase Request
             input(id="af-showreq", class="af-show-input", type="checkbox", checked=true)
             label(for="af-showreq", class="af-show", id="showlabel") Hide Optional Fields  
             form(class="af-form", id="af-form", method="post",action="/addpo", autocomplete="on")
+              div(class="af-outer af-required")              
+                      div(class="af-inner")
+                        label(for="uservendor") Vendor
+                        select(name="uservendor", required)
+                          each entry, i in vendor_array
+                            option(value=entry) #{entry}
+                        p: a(class="pageload-link" href="#secondary") New Vendor
+              div(class="af-outer af-required")
+                        div(class="af-inner")
+                          label(for="userrequestor") Requestor:
+                          input(type="text", placeholder="Requestor", name="userrequestor",list="requestor_list", onchange="setRequestor(this.value);", required)
+                          datalist(id="requestor_list")
+                            each entry, i in purchaser_array
+                              option(value=entry)
+              div(class="af-outer af-required")
+                      div(class="af-inner")
+                        label(for="purchaser") Purchaser:
+                        select(name="purchaser", required)
+                          each entry, i in purchaser_array
+                            option(value=entry) #{entry}
               div(class="af-outer af-required")
                       div(class="af-inner")
                         label(for="userdate_requested") Date Purchased:
@@ -26,22 +55,6 @@ block content
                       div(class="af-inner")
                         label(for="userdate_recived") Date Recived:
                         input(type="date", placeholder="date_recived", name="userdate_recived")
-              div(class="af-outer af-required")
-                      div(class="af-inner")
-                        label(for="purchaser") Purchaser:
-                        select(name="purchaser", required)
-                          each entry, i in purchaser_array
-                            option(value=entry) #{entry}
-                      div(class="af-inner")
-                        label(for="userrequestor") Requestor:
-                        input(type="text", placeholder="Requestor", name="userrequestor",list="requestor_list", required)
-              div(class="af-outer af-required")
-                      div(class="af-inner")
-                        label(for="uservendor") Vendor
-                        select(name="uservendor", required)
-                          each entry, i in vendor_array
-                            option(value=entry) #{entry}
-                        p: a(class="pageload-link" href="#secondary") New Vendor
               div(class="af-outer af-required")
                       div(class="af-inner")
                         label(for="usertask_number") Task Number:
@@ -60,25 +73,25 @@ block content
                         input(type="text", placeholder="Cost", name="usercost", required)
               div(class="af-outer")
                       div(class="af-inner")
-                              label(for="userpo_issued") Purchase Order Issued:
-                              input(type="text", placeholder="po_issued", name="userpo_issued")
+                        label(for="userpo_issued") Purchase Order Issued:
+                        input(type="text", placeholder="po_issued", name="userpo_issued")
               div(class="af-outer")
                       div(class="af-inner")
-                              label(for="userpo_date") Purchase Order Date:
-                              input(type="date", placeholder="po_date", name="userpo_date")
+                        label(for="userpo_date") Purchase Order Date:
+                        input(type="date", placeholder="po_date", name="userpo_date")
               div(class="af-outer")
                       div(class="af-inner")
-                              label(for="userpo_number") Purchase Order Number:
-                              input(type="text", placeholder="po_number", name="userpo_number")
+                        label(for="userpo_number") Purchase Order Number:
+                        input(type="text", placeholder="po_number", name="userpo_number")
               div(class="af-outer")
                       div(class="af-inner")
-                              label(for="usernotes") Notes:
-                              input(type="text", placeholder="notes", name="usernotes")
+                        label(for="usernotes") Notes:
+                        input(type="text", placeholder="notes", name="usernotes")
               input(type="submit" value="Submit" class="progress-button" data-style="shrink" data-horizontal)
               input(type="reset" value="Clear Form")
       div(class="container" id="secondary")
               section(class="af-wrapper")
-                  h4 New Purchase Request
+                  h4 Quick Vender Add
                   input(id="af-showreq", class="af-show-input", type="checkbox", checked=true)
                   label(for="af-showreq", class="af-show", id="showlabel") Hide Optional Fields  
                   p: a(class="pageload-link" href="#primary") Go back
@@ -133,7 +146,7 @@ block content
         nav(class="linkBar")
           a(href="/polist") Purchase Order List
           a(href="/addpo") Input a Purchase Order
-          a(href="/addvendor") Add or Modify A vendor
+          a(href="/addvendor") Add A Vendor
           a(href="/admin") Administrative Login
       div(id="loader" class="pageload-overlay" data-opening="m -5,-5 0,70 90,0 0,-70 z m 5,35 c 0,0 15,20 40,0 25,-20 40,0 40,0 l 0,0 C 80,30 65,10 40,30 15,50 0,30 0,30 z")
         svg(xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 80 60" preserveAspectRatio="none")

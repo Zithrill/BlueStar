@@ -4,6 +4,7 @@ section h4 {
   font-weight: 300;
   padding: 0.1em 0 0.1em;
   color: #444;
+  text-align: center;
 }
 
 select p a{
@@ -82,6 +83,7 @@ select p a{
         opacity: 0;
 }
 .af-show-input:checked ~ .af-show {
+        text-align: center;
         background: #cae082;
         color: #535B31;
         box-shadow: 0 1px 2px rgba(255,255,255,0.6);
