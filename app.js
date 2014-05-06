@@ -1,49 +1,41 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('static-favicon');
-var logger = require('morgan');
+var express      = require('express');
+var path         = require('path');
+var favicon      = require('static-favicon');
+var logger       = require('morgan');
 var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var app = express();
-var csvFile = "/home/zithrill/Documents/node/sqlnode/database.csv"
-var pg = require('pg');
-// var database_connect = require('database-connect');
-// var database_get = require('database-get');
-// var database_put = require('database-put');
+var multer       = require('multer');
+var bodyParser   = require('body-parser');
+var routes       = require('./routes/index');
+var users        = require('./routes/users');
+var app          = express();
+var fs           = require('fs');
+var csv          = require('csv');
+var pg           = require('pg');
 var database;
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 module.exports = app;
+// Make accessible to our router
 app.use(favicon());
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser());
+app.use(multer({ dest: './uploads/'}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Make our db accessible to our router
 app.use(function(req,res,next){
   req.database = database;
-  //    clientConnected(database);
   next();
 });
-
 app.use('/', routes);
 app.use('/users', users);
-
-/// catch 404 and forwarding to error handler
+// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
-
-/// error handlers
-
+// error handlers
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
@@ -55,7 +47,6 @@ if (app.get('env') === 'development') {
     });
   });
 }
-
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
@@ -65,7 +56,6 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 //Connecting to the database
 console.log("connecting...");
 pg.connect(process.env.DATABASE_URL, function(err, client, done) {
@@ -77,7 +67,6 @@ pg.connect(process.env.DATABASE_URL, function(err, client, done) {
   database = client;
   tableHasData();
 });
-
 //Give some basic data about our tables
 var tableHasData = function()
 {

@@ -24,13 +24,19 @@ block content
     table(id="polist_table" class="display")
       thead
         tr 
+          th Id
+          th Fiscal Year
           th Ames Purchase Order Number
           th Purchaser
           th Requestor
+          th Date Requested
+          th Date Required
+          th Date Recived
           th Vendor
           th Discription
           th Task Number
           th Program
+          th Purchase Order Issued
           th Purchase Order Date
           th Purchase Order Number
           th Cost
@@ -38,13 +44,19 @@ block content
       tbody    
         each polist_fields, i in polist_rows
           tr
+            td #{polist_rows[i].id}
+            td #{polist_rows[i].fiscal_year}
             td #{polist_rows[i].ames_po_number}
             td #{polist_rows[i].purchaser}
             td #{polist_rows[i].requestor}
+            td #{polist_rows[i].date_requested}
+            td #{polist_rows[i].date_required}
+            td #{polist_rows[i].date_recived}
             td #{polist_rows[i].vendor}
             td #{polist_rows[i].discription}
             td #{polist_rows[i].task_number}
             td #{polist_rows[i].program}
+            td #{polist_rows[i].po_issued}
             td #{polist_rows[i].po_date}
             td #{polist_rows[i].po_number}
             td #{polist_rows[i].cost}
@@ -73,6 +85,8 @@ block content
                 },
                 colReorder: {
                   realtime: true
-                }
+                },
+                aoColumnDefs: [{"bVisible": false,
+                 "aTargets":[0,1,5,6,7,11,12,13,14]}]
           } );
     });
