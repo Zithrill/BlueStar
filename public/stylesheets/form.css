@@ -5,6 +5,7 @@ section h4 {
   padding: 0.1em 0 0.1em;
   color: #444;
   text-align: center;
+    font-size: 1em;
 }
 
 select p a{
@@ -57,7 +58,7 @@ select p a{
         text-align: center;
         font-weight: bold;
         border: 1px solid #A8BC65;
-        color: #6d7649;
+        color: #fff;
         border-radius: 4px;
         background: #e4efc0;
         text-shadow: 0px 1px 1px rgba(255,255,255,0.4);

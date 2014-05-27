@@ -11,6 +11,7 @@ var app          = express();
 var fs           = require('fs');
 var csv          = require('csv');
 var pg           = require('pg');
+var async        = require('async');
 var database;
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -61,11 +62,11 @@ console.log("connecting...");
 pg.connect(process.env.DATABASE_URL, function(err, client, done) {
   if (err) {
     console.log("ERROR: " + err.message);
-    throw err;
+    //throw err;
   }
   console.log("connected.");
   database = client;
-  tableHasData();
+  //tableHasData();
 });
 //Give some basic data about our tables
 var tableHasData = function()

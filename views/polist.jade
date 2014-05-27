@@ -24,7 +24,6 @@ block content
     table(id="polist_table" class="display")
       thead
         tr 
-          th Id
           th Fiscal Year
           th Ames Purchase Order Number
           th Purchaser
@@ -44,7 +43,6 @@ block content
       tbody    
         each polist_fields, i in polist_rows
           tr
-            td #{polist_rows[i].id}
             td #{polist_rows[i].fiscal_year}
             td #{polist_rows[i].ames_po_number}
             td #{polist_rows[i].purchaser}
