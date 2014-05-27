@@ -1,7 +1,7 @@
-//One of the overall goals of this file is to 
-// separate out all of the extra code into it's 
+//One of the overall goals of this file is to
+// separate out all of the extra code into it's
 // own js files so that our index is cleaner
-// 
+//
 
 var express = require('express');
 var fs      = require('fs');
@@ -85,10 +85,10 @@ router.post("/batchadd", function (req, res) {
     })
     /*
     //
-    //Big problem here the records are being added as fast as the server can read 
-    //unfortunately this is causing the ames_po_generation to be faulty as we currently 
-    //query the database of the number of records and add one to that number 
-    //but with the batch add we are to fast and need to use a callback to fix this or 
+    //Big problem here the records are being added as fast as the server can read
+    //unfortunately this is causing the ames_po_generation to be faulty as we currently
+    //query the database of the number of records and add one to that number
+    //but with the batch add we are to fast and need to use a callback to fix this or
     //implement a call before the file is uploaded and store the values in a var
     //
     */
@@ -125,13 +125,12 @@ router.post("/batchadd", function (req, res) {
       }
     })
     .on('end', function(err, data){
-      var sqlFiscalYearQuery = "";
-      var submitToDatabase = function(asyncResults, number_of_entrys){
-        console.log("Run during the generation " + (number_of_entrys.rowCount + 1));
-        asyncResults[2] =(asyncResults[1] + '-' + (number_of_entrys.rowCount + 1));
-        sqlQuery = 'INSERT INTO ucsc_po_tracking (' + sqlHeader + ') ' +
-                   'VALUES (' + JSON.stringify(asyncResults).replace('[','').replace(']','').replace(/(\")/g, '\'') + ' )';
-        console.log(sqlQuery); 
+      var submitToDatabase = function(asyncResults, numberOfFiscalYearPO){
+        console.log("Run during the generation " + (numberOfFiscalYearPO + 1));
+        asyncResults[2] =(asyncResults[1] + '-' + (numberOfFiscalYearPO + 1));
+        sqlQuery = 'INSERT INTO ucsc_po_tracking ( submitted ' + sqlHeader.replace(/,$/, "") + ') ' +
+                   'VALUES ( \'now\', ' + JSON.stringify(asyncResults).replace('[','').replace(']','').replace(/(\")/g, '\'').replace(/,$/, "") + ' )';
+        console.log(sqlQuery);
         database.query(sqlQuery.toString() ,function (err, doc){
           if (err) {
           // If it failed, return error
@@ -140,16 +139,47 @@ router.post("/batchadd", function (req, res) {
           }
         });
       }
-      async.eachSeries(arrayCleanPo, function (element, submitToDatabase) {
-        //generate an ames po number
-        sqlFiscalYearQuery = ('SELECT id FROM ucsc_po_tracking WHERE fiscal_year = ' + element[1]);
-        number_of_entrys   = database.query(sqlFiscalYearQuery);
-        submitToDatabase(element, number_of_entrys);
-      }, function (err) {
-        if (err) { console.log(err); }
-        console.log('Well done :-)!');
+      // async.eachSeries(arrayCleanPo, function (element, submitToDatabase){
+      //   //generate an ames po number
+      //   var sqlFiscalYearQuery = ('SELECT id FROM ucsc_po_tracking WHERE fiscal_year = ' + element[1]);
+      //   var number_of_entrys   = database.query(sqlFiscalYearQuery);
+      //   number_of_entrys.on('end', function(result){
+      //     console.log(element);
+      //     console.log("number_of_entrys: " + result.rowCount);
+      //     submitToDatabase(element, result.rowCount);
+      //   })
+      //   }, function (err) {
+      //       if (err) { console.log("Error in: " + err);}
+      //       console.log('Well done :-)!');
+      //       }
+      // );
+
+      async.eachSeries(arrayCleanPo, function( element, callback) {
+
+        // Perform operation on file here.
+        console.log('Processing file ');
+        var sqlFiscalYearQuery = ('SELECT id FROM ucsc_po_tracking WHERE fiscal_year = ' + element[1]);
+        var number_of_entrys   = database.query(sqlFiscalYearQuery);
+
+        number_of_entrys.on('end', function(result){
+          console.log(element);
+          console.log("number_of_entrys: " + result.rowCount);
+          submitToDatabase(element, result.rowCount);
+          console.log("postSubmit: ");
+        })
+      }, function(err){
+          // if any of the file processing produced an error, err would equal that error
+          if( err ) {
+            // One of the iterations produced an error.
+            // All processing will now stop.
+            console.log('A file failed to process');
+          } else {
+            console.log('All files have been processed successfully');
+          }
       });
+
     })
+
 
         //sqlQuery = 'DO IF NOT EXISTS (SELECT * FROM ucsc_po_tracking WHERE ' +
         //            '\'vendor\'' +         ' = \"' + row[9] +'\" AND ' +
@@ -160,7 +190,7 @@ router.post("/batchadd", function (req, res) {
         //            '\'task_number\'' +    ' = \"' + row[11] +'\" AND ' +
         //            '\'discription\'' +    ' = \"' + row[10] +'\" AND ' +
         //            '\'cost\'' +           ' = \"' + row[16] +'\") ' +
-        
+
     .on('close', function(count){
       // when writing to a file, use the 'close' event
       // the 'end' event may fire before the file has been written
