@@ -237,7 +237,6 @@ select p a{
 }
 ::-webkit-validation-bubble{
         z-index: 100000;
-
 }
 @media screen and( max-width: 780px) {
         .af-wrapper {

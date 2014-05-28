@@ -1,7 +1,7 @@
     CREATE TABLE ucsc_po_tracking
     (id serial, 
     submitted text, 
-    fiscal_year INT, 
+    fiscal_year text, 
     ames_po_number text, 
     date_pr_requested DATE, 
     date_needed DATE, 
@@ -15,8 +15,8 @@
     po_issued text, 
     po_date DATE, 
     po_number text, 
-    cost INT, 
-    actual_cost INT, 
+    cost text, 
+    actual_cost text, 
     notes text, 
     PRIMARY KEY (id));
 

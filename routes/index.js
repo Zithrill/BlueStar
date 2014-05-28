@@ -79,10 +79,6 @@ router.post("/batchadd", function (req, res) {
     csv()
     .from.path(tmp_path, { delimiter: ';', escape: '"' })
     .to.stream(fs.createWriteStream(__dirname + filename))
-    .transform( function(row){
-      row.unshift(row.pop());
-      return row;
-    })
     /*
     //
     //Big problem here the records are being added as fast as the server can read
@@ -94,74 +90,95 @@ router.post("/batchadd", function (req, res) {
     */
     .on('record', function(row,index){
       if(index == 0){
-        sqlHeader = JSON.stringify(row).replace(/(\[)/g,'').replace(/(\])/g,'').replace(/(\")/g, "").replace(/(\s)/g,"_").replace(/(Purchase_Order)/g,"po").toLowerCase();
+        sqlHeader = row.toString().replace(/(\")/g, "").replace(/(\s)/g,"_").replace(/(Purchase_Order)/g,"po").toLowerCase();
         console.log( "Header:" + sqlHeader);
       }
       //We skip entry if we already have an assigned id number indicating that the file has been submitted
-      else if(row[1] == ""){
+      else if(row[0] == ""){
         //Check and generate a fiscal year
-          var date = new Date(row[6]);
+          var date = new Date(row[4]);
         if (date.getMonth() < 9){
-          row[1] = date.getFullYear();
+          row[0] = date.getFullYear();
         }
         else{
-          row[1] = (date.getFullYear() + 1);
+          row[0] = (date.getFullYear() + 1);
         };
         //Cleaning dates for database entry
         if (row[5] == '') {
-          row[5] ='-infinity'
+          row[5] = '-infinity'
         };
         if (row[6] == '') {
           row[6] = '-infinity'
         };
-        if (row[7] == '') {
-          row[7] = '-infinity'
-        };
-        if (row[13] == '') {
-          row[13] = '-infinity'
+        if (row[12] == '') {
+          row[12] = '-infinity'
         };
         //adding the cleaned results to an array that we will check against the DB and eventually add
-        arrayCleanPo.push(row.shift());
+        arrayCleanPo.push(row);
       }
     })
-    .on('end', function(err, data){
-      var submitToDatabase = function(asyncResults, numberOfFiscalYearPO){
-        console.log("Run during the generation " + (numberOfFiscalYearPO + 1));
-        asyncResults[1] =(asyncResults[0] + '-' + (numberOfFiscalYearPO + 1));
-        sqlQuery = 'INSERT INTO ucsc_po_tracking ( submitted ' + sqlHeader.replace(/,''/g, "") + ') ' +
-                   'VALUES ( ' + JSON.stringify(asyncResults).replace('[','').replace(']','').replace(/(\")/g, '\'').replace(/\s'',$/, "") + ' )';
-        console.log(sqlQuery);
-        database.query(sqlQuery.toString() ,function (err, doc){
-          if (err) {
-          // If it failed, return error
-          res.send("There was a problem adding the information to the database.");
-          console.log("ERROR: " + err.message);
-          }
-        });
-      }
-      async.eachSeries(arrayCleanPo, function( element, callback) {
-
-        // Perform operation on file here.
+    .on('end', function(data){
+      var getNumberOfPo = function (num, doneCallback) {
         console.log('Processing file ');
-        var sqlFiscalYearQuery = ('SELECT id FROM ucsc_po_tracking WHERE fiscal_year = ' + element[0]);
+        console.log('number in: ' + num);
+        var sqlFiscalYearQuery = ('SELECT id FROM ucsc_po_tracking WHERE fiscal_year = \'' + num[0] +'\'');
+        console.log('sql query: ' +sqlFiscalYearQuery);
         var number_of_entrys   = database.query(sqlFiscalYearQuery);
-
-        number_of_entrys.on('end', function(result){
-          console.log(element);
-          console.log("number_of_entrys: " + result.rowCount);
-          submitToDatabase(element, result.rowCount);
-          console.log("postSubmit: ");
+        // Call back with no error and the result of num * num
+        number_of_entrys.on('end', function(queryData){
+          console.log("Retrieved number of pos: " + queryData.rowCount);
+          console.log("Run during the generation " + (queryData.rowCount + 1));
+          num[1] =(num[0] + '-' + (queryData.rowCount + 1));
+          sqlQuery = 'INSERT INTO ucsc_po_tracking ( submitted,' + sqlHeader + ') ' +
+                     'VALUES ( \'now\',\'' + num.join("\',\'") + '\' )';
+          console.log(sqlQuery);
+          database.query(sqlQuery.toString() ,function (err, doc){
+            if (err) {
+              // If it failed, return error
+              console.log("ERROR: " + err);
+              return doneCallback(err);
+            }
+            else{
+              return doneCallback(null, sqlQuery);
+            }
+          });
+          return doneCallback(null, sqlQuery);
         })
-      }, function(err){
-          // if any of the file processing produced an error, err would equal that error
-          if( err ) {
-            // One of the iterations produced an error.
-            // All processing will now stop.
-            console.log('A file failed to process');
-          } else {
-            console.log('All files have been processed successfully');
-          }
+        number_of_entrys.on('error', function(queryError){
+          return doneCallback(queryError);
+        })
+      };
+
+      // Square each number in the array [1, 2, 3, 4]
+      async.eachSeries(arrayCleanPo, getNumberOfPo, function (eachErr, eachResults) {
+        // Square has been called on each of the numbers
+        // so we're now done!
+        if (eachErr) {
+          res.send("There was a problem adding the information to the database.");
+          console.log("ERROR: " + eachErr);
+        };
+        
       });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     })
 

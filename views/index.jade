@@ -1,12 +1,17 @@
 extends layout
 
 block content
-    h1= "Welcome to Purchase Order Input!"
-    br
-    section(class="linkBar-container")
-      nav(class="linkBar")
-        a(href="/polist") Purchase Order List
-        a(href="/addpo") Input a Purchase Order
-        a(href="/addvendor") Add or Modify A Vendor
-        a(href="/admin") Administrative Login 
+        head
+            title Purchase Order Input
+            link(rel="stylesheet" href="/stylesheets/index.css" type="text/css")
+            link(rel="stylesheet" type="text/css" href="/stylesheets/style.css")
+            
+        body
+        section(class="linkBar-container")
+          nav(class="linkBar")
+            a(href="/polist") Purchase Order List
+            a(href="/addpo") Input a Purchase Order
+            a(href="/addvendor") Add or Modify A Vendor
+            a(href="/admin") Administrative Login
+
 
