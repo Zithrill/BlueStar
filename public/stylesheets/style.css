@@ -13,7 +13,7 @@ html {
 }
 
 body {
-  background: #FFF;
+  background: #e8e8e8;
   font-size: 10px;
   color: #fff;
   font-size: 16px;
@@ -93,7 +93,6 @@ nav a:focus {
 	background: #435a6b;
 }
 
-/* Effect 14: border switch */
 .linkBar a {
 	padding: 0 30px;
   text-align: center;
@@ -175,6 +174,7 @@ nav a:focus {
 }
 
 #af-showreq {
+  text-align: center;
 position: absolute;
   top: 0;
   left: 0;

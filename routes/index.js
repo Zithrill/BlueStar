@@ -121,15 +121,15 @@ router.post("/batchadd", function (req, res) {
           row[13] = '-infinity'
         };
         //adding the cleaned results to an array that we will check against the DB and eventually add
-        arrayCleanPo.push(row);
+        arrayCleanPo.push(row.shift());
       }
     })
     .on('end', function(err, data){
       var submitToDatabase = function(asyncResults, numberOfFiscalYearPO){
         console.log("Run during the generation " + (numberOfFiscalYearPO + 1));
-        asyncResults[2] =(asyncResults[1] + '-' + (numberOfFiscalYearPO + 1));
-        sqlQuery = 'INSERT INTO ucsc_po_tracking ( submitted ' + sqlHeader.replace(/,$/, "") + ') ' +
-                   'VALUES ( \'now\', ' + JSON.stringify(asyncResults).replace('[','').replace(']','').replace(/(\")/g, '\'').replace(/,$/, "") + ' )';
+        asyncResults[1] =(asyncResults[0] + '-' + (numberOfFiscalYearPO + 1));
+        sqlQuery = 'INSERT INTO ucsc_po_tracking ( submitted ' + sqlHeader.replace(/,''/g, "") + ') ' +
+                   'VALUES ( ' + JSON.stringify(asyncResults).replace('[','').replace(']','').replace(/(\")/g, '\'').replace(/\s'',$/, "") + ' )';
         console.log(sqlQuery);
         database.query(sqlQuery.toString() ,function (err, doc){
           if (err) {
@@ -139,26 +139,11 @@ router.post("/batchadd", function (req, res) {
           }
         });
       }
-      // async.eachSeries(arrayCleanPo, function (element, submitToDatabase){
-      //   //generate an ames po number
-      //   var sqlFiscalYearQuery = ('SELECT id FROM ucsc_po_tracking WHERE fiscal_year = ' + element[1]);
-      //   var number_of_entrys   = database.query(sqlFiscalYearQuery);
-      //   number_of_entrys.on('end', function(result){
-      //     console.log(element);
-      //     console.log("number_of_entrys: " + result.rowCount);
-      //     submitToDatabase(element, result.rowCount);
-      //   })
-      //   }, function (err) {
-      //       if (err) { console.log("Error in: " + err);}
-      //       console.log('Well done :-)!');
-      //       }
-      // );
-
       async.eachSeries(arrayCleanPo, function( element, callback) {
 
         // Perform operation on file here.
         console.log('Processing file ');
-        var sqlFiscalYearQuery = ('SELECT id FROM ucsc_po_tracking WHERE fiscal_year = ' + element[1]);
+        var sqlFiscalYearQuery = ('SELECT id FROM ucsc_po_tracking WHERE fiscal_year = ' + element[0]);
         var number_of_entrys   = database.query(sqlFiscalYearQuery);
 
         number_of_entrys.on('end', function(result){

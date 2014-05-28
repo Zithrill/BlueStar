@@ -19,7 +19,6 @@ html, body, .pagewrap {
 }
 
 body {
-  background: #4fc3f7;
   color: #fff;
   font-size: 16px;
   font-weight: 300;
@@ -37,70 +36,6 @@ a {
 
 a:hover, a:focus {
   color: rgba(0,0,0,0.6);
-}
-
-.codrops-header {
-  margin: 0 auto;
-  padding: 2em;
-  text-align: center;
-}
-
-.codrops-header h1 {
-  margin: 0;
-  font-weight: 300;
-  font-size: 2.5em;
-}
-
-.codrops-header h1 span {
-  display: block;
-  padding: 0 0 0.6em 0.1em;
-  font-size: 0.6em;
-  opacity: 0.7;
-}
-
-/* To Navigation Style */
-.codrops-top {
-  width: 100%;
-  text-transform: uppercase;
-  font-weight: 700;
-  font-size: 0.69em;
-  line-height: 2.2;
-}
-
-.codrops-top a {
-  display: inline-block;
-  padding: 0 1em;
-  text-decoration: none;
-  letter-spacing: 1px;
-}
-
-.codrops-top span.right {
-  float: right;
-}
-
-.codrops-top span.right a {
-  display: block;
-  float: left;
-}
-
-.codrops-icon:before {
-  margin: 0 4px;
-  text-transform: none;
-  font-weight: normal;
-  font-style: normal;
-  font-variant: normal;
-  font-family: 'codropsicons';
-  line-height: 1;
-  speak: none;
-  -webkit-font-smoothing: antialiased;
-}
-
-.codrops-icon-drop:before {
-  content: "\e001";
-}
-
-.codrops-icon-prev:before {
-  content: "\e004";
 }
 
 section {
@@ -130,30 +65,9 @@ section p {
   font-size: 1em;
  }
 
-
-/* Demo links */
-.codrops-demos {
-  text-align: right;
-}
-
-.codrops-demos a {
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin: 15px;
-  padding: 0 0 5px;
-  display: inline-block;
-  border-bottom: 3px solid rgba(0,0,0,0.25);
-}
-
-.codrops-demos a:hover,
-.codrops-demos a:focus,
-.codrops-demos a.current-demo {
-  color: #fff;
-  border-color: #fff;
-}
-
 .pageload-link {
-  padding: 13px 20px;
+  display: inline;
+  padding: 10px 18px;
   color: #fff;
   background: rgba(0,0,0,0.25);
   text-transform: uppercase;
@@ -267,18 +181,6 @@ section p {
     float: none;
     padding: 0em;
     text-align: center;
-  }
-
-  .codrops-demos {
-    text-align: center;
-  }
-
-}
-
-@media screen and (max-width: 25em) {
-
-  .codrops-icon span {
-    display: none;
   }
 
 }

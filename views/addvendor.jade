@@ -1,6 +1,7 @@
 extends layout
 block content
   link(rel='stylesheet', href='/stylesheets/form.css')
+  link(rel="stylesheet" type="text/css" href="/stylesheets/transition.css")
   section(class="af-wrapper")
       h4 Add a New Vendor                   
       input(id="af-showreq", class="af-show-input", type="checkbox", checked=true)
@@ -52,9 +53,9 @@ block content
                   input(type="text", placeholder="Add any additional info here", name="usernotes")
         input(type="submit", value="Submit")
         input(type="reset" value="Clear Form")
-  section(class="linkBar-container")
-    nav(class="linkBar")
-      a(href="/polist") Purchase Order List
-      a(href="/addpo") Input a Purchase Order
-      a(href="/addvendor") Add or Modify A vendor
-      a(href="/admin") Administrative Login 
+  div(class="linkBar-container")
+          nav(class="linkBar")
+            a(href="/polist") Purchase Order List
+            a(href="/addpo") Input a Purchase Order
+            a(href="/addvendor") Add A Vendor
+            a(href="/admin") Administrative Login

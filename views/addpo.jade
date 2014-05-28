@@ -9,7 +9,7 @@ block content
     div(id="pagewrap" class="pagewrap")
       div(class="container show" id="primary")
         script.
-            function setRequestor(value){
+            function setRequester(value){
               function arrayCheck(elementArray, index, array) {
                 if (value = elementArray){
                   var element = document.getElementByName('purchaser');
@@ -24,21 +24,21 @@ block content
             label(for="af-showreq", class="af-show", id="showlabel") Hide Optional Fields  
             form(class="af-form", id="af-form", method="post",action="/addpo", autocomplete="on")
               div(class="af-outer af-required")              
-                      div(class="af-inner")
+                      div(class="af-inner hasDropDown")
                         label(for="uservendor") Vendor
-                        select(name="uservendor", required)
+                        select(name="uservendor" class="hasDropDown", required)
                           each entry, i in vendor_array
                             option(value=entry) #{entry}
-                        p: a(class="pageload-link" href="#secondary") New Vendor
+                        a(class="pageload-link" href="#secondary") New Vendor
               div(class="af-outer af-required")
                         div(class="af-inner")
-                          label(for="userrequestor") Requestor:
-                          input(type="text", placeholder="Requestor", name="userrequestor",list="requestor_list", onchange="setRequestor(this.value);", required)
-                          datalist(id="requestor_list")
+                          label(for="userrequester") Requester:
+                          input(type="text", placeholder="Requester", name="userrequester",list="requester_list", onchange="setRequester(this.value);", required)
+                          datalist(id="requester_list")
                             each entry, i in purchaser_array
                               option(value=entry)
               div(class="af-outer af-required")
-                      div(class="af-inner")
+                      div(class="af-inner hasDropDown")
                         label(for="purchaser") Purchaser:
                         select(name="purchaser", required)
                           each entry, i in purchaser_array
@@ -180,6 +180,3 @@ block content
         }
         init();
       })();
-
-      Purchase catagory
-      materials_default software/hardware_matenince subcontrects

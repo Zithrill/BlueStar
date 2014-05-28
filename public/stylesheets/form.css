@@ -1,11 +1,11 @@
 section h4 {
-  position: relative;
-  font-size: 2.6em;
-  font-weight: 300;
-  padding: 0.1em 0 0.1em;
-  color: #444;
-  text-align: center;
-    font-size: 1em;
+    position: relative;
+    font-size: 2.6em;
+    font-weight: 300;
+    padding: 0.1em 0 0.1em;
+    color: #fff;
+    text-align: center;
+    font-size: 2.5em;
 }
 
 select p a{
@@ -17,7 +17,10 @@ select p a{
     transform: scale(1);
     transition: all 0.5s linear;
 }
-
+.hasDropDown{
+    text-align: left;
+    height: 40px;
+}
 .af-outer {
     overflow: hidden;
     height: 70px;
@@ -43,7 +46,8 @@ select p a{
         pa
         dding: 20px;
         box-shadow: 1px 2px 4px rgba(0,0,0,0.2);
-        background-color: #819FF7;
+        background: url("../images/formBG.jpg");;
+        background-size: cover;
 }
 .af-wrapper h3 {
         margin: 0px;
@@ -151,15 +155,12 @@ select p a{
         padding-right: 3%;
         width: 30%;
         min-width: 80px;
-        font-size: 13px;
-        color: #424242;
+        font-size: 18px;
+        color: #fff;
         letter-spacing: 3px;
         text-align: right;
         text-transform: uppercase;
         text-shadow: 1px 1px 1px rgba(255,255,255,0.6);
-}
-.af-form .af-required label {
-        color: #1C1C1C;
 }
 .af-form input[type=text],
 .af-form input[type=email],
