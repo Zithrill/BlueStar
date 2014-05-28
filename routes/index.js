@@ -119,19 +119,12 @@ router.post("/batchadd", function (req, res) {
     })
     .on('end', function(data){
       var getNumberOfPo = function (num, doneCallback) {
-        console.log('Processing file ');
-        console.log('number in: ' + num);
         var sqlFiscalYearQuery = ('SELECT id FROM ucsc_po_tracking WHERE fiscal_year = \'' + num[0] +'\'');
-        console.log('sql query: ' +sqlFiscalYearQuery);
         var number_of_entrys   = database.query(sqlFiscalYearQuery);
-        // Call back with no error and the result of num * num
         number_of_entrys.on('end', function(queryData){
-          console.log("Retrieved number of pos: " + queryData.rowCount);
-          console.log("Run during the generation " + (queryData.rowCount + 1));
           num[1] =(num[0] + '-' + (queryData.rowCount + 1));
           sqlQuery = 'INSERT INTO ucsc_po_tracking ( submitted,' + sqlHeader + ') ' +
                      'VALUES ( \'now\',\'' + num.join("\',\'") + '\' )';
-          console.log(sqlQuery);
           database.query(sqlQuery.toString() ,function (err, doc){
             if (err) {
               // If it failed, return error
@@ -142,13 +135,11 @@ router.post("/batchadd", function (req, res) {
               return doneCallback(null, sqlQuery);
             }
           });
-          return doneCallback(null, sqlQuery);
         })
         number_of_entrys.on('error', function(queryError){
           return doneCallback(queryError);
         })
       };
-
       // Square each number in the array [1, 2, 3, 4]
       async.eachSeries(arrayCleanPo, getNumberOfPo, function (eachErr, eachResults) {
         // Square has been called on each of the numbers
@@ -159,30 +150,7 @@ router.post("/batchadd", function (req, res) {
         };
         
       });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     })
-
-
         //sqlQuery = 'DO IF NOT EXISTS (SELECT * FROM ucsc_po_tracking WHERE ' +
         //            '\'vendor\'' +         ' = \"' + row[9] +'\" AND ' +
         //            '\'requestor\'' +      ' = \"' + row[6] +'\" AND ' +
