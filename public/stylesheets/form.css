@@ -47,7 +47,7 @@ select p a{
         dding: 20px;
         box-shadow: 1px 2px 4px rgba(0,0,0,0.2);
         background: url("../images/formBG.jpg");;
-        background-size: cover;
+
 }
 .af-wrapper h3 {
         margin: 0px;
