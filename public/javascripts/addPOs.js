@@ -1,4 +1,4 @@
-exports.getPOdata = function(res, req) {
+exports.getPOdata = function(req, res) {
 // Set our internal DB variable
   var database = req.database;
   //Get the info for drop-down lists
