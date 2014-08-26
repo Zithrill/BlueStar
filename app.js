@@ -24,6 +24,8 @@ app.use(bodyParser());
 app.use(multer({ dest: './uploads/'}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+//Giving database access to the rest of the router
+//Very possibly extreamly insecure
 app.use(function(req,res,next){
   req.database = database;
   next();
